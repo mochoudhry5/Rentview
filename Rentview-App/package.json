@@ -2,7 +2,7 @@
   "name": "Rentview",
   "version": "0.0.1",
   "private": true,
-  "proxy": "http://localhost:8000",
+  "proxy": "https://rentview.onrender.com",
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",

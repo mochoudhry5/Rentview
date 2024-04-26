@@ -11,7 +11,7 @@ import {OverlayProvider, Chat} from 'stream-chat-react-native';
 import {db, auth} from '../config/firebase';
 import {doc, getDoc, updateDoc} from 'firebase/firestore';
 import axios from 'axios';
-const baseUrl = 'http://localhost:8000';
+const baseUrl = 'https://rentview.onrender.com';
 
 type ChatContextType = {
   chatClient?: StreamChat;
