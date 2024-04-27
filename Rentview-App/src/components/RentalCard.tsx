@@ -24,7 +24,7 @@ const RentalCard: React.FC<Props> = ({
       onPress={() => handleHomeClick(rental)}>
       <Card
         containerStyle={{
-          borderRadius: 20,
+          borderRadius: 30,
           backgroundColor: 'white',
         }}>
         {rental.data.homePictures !== null &&
@@ -133,7 +133,7 @@ const RentalCard: React.FC<Props> = ({
                 style={{
                   flexDirection: 'row',
                   justifyContent: 'space-between',
-                  alignItems:'center'
+                  alignItems: 'center',
                 }}>
                 <Text style={styles.rating}>
                   {rental.data.overallRating.avgOverallRating.toFixed(1)}
@@ -154,6 +154,7 @@ const RentalCard: React.FC<Props> = ({
           borderRadius: 20,
           width: 300,
           backgroundColor: 'white',
+          borderWidth: 3,
         }}>
         {search.homePicture !==
         'https://t4.ftcdn.net/jpg/04/00/24/31/240_F_400243185_BOxON3h9avMUX10RsDkt3pJ8iQx72kS3.jpg' ? (
@@ -185,7 +186,7 @@ const styles = StyleSheet.create({
   rating: {
     fontSize: 16,
     fontWeight: '600',
-    paddingRight:'1%'
+    paddingRight: '1%',
   },
   occupiedStatus: {
     width: 10,

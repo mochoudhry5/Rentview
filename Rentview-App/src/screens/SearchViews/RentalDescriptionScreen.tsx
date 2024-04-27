@@ -113,7 +113,7 @@ const RentalDescription: React.FC<RentalDescriptionProps> = ({
   const user = auth.currentUser;
   const userId = user?.uid ? user.uid : '';
   const sheetRef = useRef<BottomSheet>(null);
-  const snapPoints = ['3%', '14%', '90%'];
+  const snapPoints = ['3.4%', '17%', '90%'];
   const homeInfoRef = doc(db, 'HomeReviews', route.params.homeId);
   const homeReviewsQuery = query(
     collection(db, 'HomeReviews', route.params.homeId, 'IndividualRatings'),
@@ -844,7 +844,7 @@ const RentalDescription: React.FC<RentalDescriptionProps> = ({
                         textAlign: 'center',
                         paddingTop: '2%',
                       }}>
-                      Home Not Claimed
+                      Home is not an Active Listing.
                     </Text>
                     <Text
                       style={{
@@ -854,7 +854,7 @@ const RentalDescription: React.FC<RentalDescriptionProps> = ({
                         paddingBottom: '3%',
                       }}>
                       <Text style={{fontWeight: '300'}}>Owner: </Text>If this is
-                      your property, click{' '}
+                      your property and looking to list, click{' '}
                       <Text style={{fontWeight: 'bold'}}>Claim Home</Text> and
                       enter all necessary details.
                     </Text>
@@ -1020,40 +1020,37 @@ const RentalDescription: React.FC<RentalDescriptionProps> = ({
                     )}
                   </View>
                 </View>
-                <View
-                  style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
-                  <View style={styles.rating1}>
+                <View style={styles.rating2}>
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      fontSize: 14,
+                      color: '#347544',
+                      fontStyle: 'italic',
+                      fontWeight: 'bold',
+                      width: '30%',
+                    }}>
+                    House Quality
+                  </Text>
+                  {totalReviews > 0 && houseQuality > 0 ? (
                     <Text
                       style={{
                         textAlign: 'center',
-                        fontSize: 14,
-                        color: '#347544',
-                        fontStyle: 'italic',
                         fontWeight: 'bold',
-                        width: '70%',
+                        fontSize: 12,
                       }}>
-                      House Quality
+                      {houseQuality.toFixed(1)}
                     </Text>
-                    {totalReviews > 0 && houseQuality > 0 ? (
-                      <Text
-                        style={{
-                          textAlign: 'center',
-                          fontWeight: 'bold',
-                          fontSize: 12,
-                        }}>
-                        {houseQuality.toFixed(1)}
-                      </Text>
-                    ) : (
-                      <Text
-                        style={{
-                          textAlign: 'center',
-                          fontWeight: 'bold',
-                          fontSize: 12,
-                        }}>
-                        N/A
-                      </Text>
-                    )}
-                  </View>
+                  ) : (
+                    <Text
+                      style={{
+                        textAlign: 'center',
+                        fontWeight: 'bold',
+                        fontSize: 12,
+                      }}>
+                      N/A
+                    </Text>
+                  )}
                 </View>
               </View>
               {allReviews.map(review => (
@@ -1177,6 +1174,12 @@ const styles = StyleSheet.create({
     marginLeft: '6%',
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
+  },
+  rating2: {
+    marginTop: '2%',
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
   button: {
     position: 'absolute',

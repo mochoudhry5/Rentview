@@ -413,30 +413,54 @@ const SearchRentals: React.FC<SearchRentalsProps> = ({navigation}) => {
               </Card>
             </View>
           ) : null}
-           <Text style={styles.recentSearches}>Nearby Rentals</Text>
-           <View
-              style={{
-                alignItems: 'center',
-                marginTop: 10,
+          <Text style={styles.recentSearches}>Nearby Rentals</Text>
+          <View
+            style={{
+              alignItems: 'center',
+              marginTop: 10,
+            }}>
+            <Card
+              containerStyle={{
+                borderRadius: 10,
+                width: '90%',
+                backgroundColor: '#F0F0F0',
               }}>
-              <Card
-                containerStyle={{
-                  borderRadius: 10,
-                  width: '90%',
-                  backgroundColor: '#F0F0F0',
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: 14,
+                  textAlign: 'center',
+                  color: 'black',
+                  borderColor: '#F0F0F0',
                 }}>
-                <Text
-                  style={{
-                    fontWeight: 'bold',
-                    fontSize: 14,
-                    textAlign: 'center',
-                    color: 'black',
-                    borderColor: '#F0F0F0',
-                  }}>
-                  Coming Soon!
-                </Text>
-              </Card>
-            </View>
+                Coming Soon!
+              </Text>
+            </Card>
+          </View>
+          <Text style={styles.recentSearches}>Promoted Posts</Text>
+          <View
+            style={{
+              alignItems: 'center',
+              marginTop: 10,
+            }}>
+            <Card
+              containerStyle={{
+                borderRadius: 10,
+                width: '90%',
+                backgroundColor: '#F0F0F0',
+              }}>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: 14,
+                  textAlign: 'center',
+                  color: 'black',
+                  borderColor: '#F0F0F0',
+                }}>
+                Coming Soon!
+              </Text>
+            </Card>
+          </View>
         </ScrollView>
         <View>
           <Modal isVisible={isModalVisible} animationIn={'bounceIn'}>

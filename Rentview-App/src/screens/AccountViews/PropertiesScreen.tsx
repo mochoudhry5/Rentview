@@ -6,6 +6,7 @@ import {
   getDoc,
   onSnapshot,
   query,
+  deleteDoc,
 } from 'firebase/firestore';
 import React, {useEffect, useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -34,6 +35,8 @@ const PropertiesScreen: React.FC<PropertiesProps> = ({navigation}) => {
         docSnapshot.forEach(doc => {
           setAllProperties(prevArr => [...prevArr, doc.data()]);
         });
+      } else {
+        setAllProperties([]);
       }
       setIsLoading(false);
     });
@@ -53,6 +56,19 @@ const PropertiesScreen: React.FC<PropertiesProps> = ({navigation}) => {
       homeId: homeId,
       ownerId: ownerId,
     });
+  };
+
+  const handleUnclaimProperty = async (homeId: string) => {
+    const homeInfoRef = doc(db, 'HomeReviews', homeId);
+    const myPropertiesRef = doc(
+      db,
+      'UserReviews',
+      user?.uid ? user.uid : '',
+      'MyProperties',
+      homeId,
+    );
+    await deleteDoc(myPropertiesRef);
+    await deleteDoc(homeInfoRef);
   };
 
   return (
@@ -81,6 +97,7 @@ const PropertiesScreen: React.FC<PropertiesProps> = ({navigation}) => {
                     key={property.homeId}
                     rental={property}
                     handleView={handleViewProperty}
+                    handleUnclaimProperty={handleUnclaimProperty}
                   />
                 ))}
               </ScrollView>
