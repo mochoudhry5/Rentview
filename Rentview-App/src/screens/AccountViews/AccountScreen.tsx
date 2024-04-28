@@ -14,7 +14,6 @@ import {db} from '../../config/firebase';
 import {AccountStackParamList} from '../../utils/types';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useChatContext} from '../../context/ChatContext';
-import {StreamChat} from 'stream-chat';
 
 type AccountProps = NativeStackScreenProps<
   AccountStackParamList,
@@ -51,26 +50,28 @@ const AccountScreen: React.FC<AccountProps> = ({navigation}) => {
   };
 
   const handleContact = async () => {
-    const client = StreamChat.getInstance('pn73rx5c7g26');
     const adminId = '0bXFuQZ3OmRA09Tr311JSBizUjs2';
     const filter = {type: 'messaging', members: {$eq: [adminId, userId]}};
-    const channels = await client.queryChannels(filter);
 
-    if (channels.length > 0) {
-      const channel = client.channel('messaging', {
-        members: [adminId, userId],
-        name: 'Rentview Admin',
-      });
+    if (chatClient) {
+      const channels = await chatClient.queryChannels(filter);
 
-      await channel.create();
+      if (channels.length > 0) {
+        const channel = chatClient.channel('messaging', {
+          members: [adminId, userId],
+          name: 'Rentview Admin',
+        });
 
-      setCurrentChannel(channel);
+        await channel.create();
 
-      navigation.removeListener;
-      navigation.navigate('ChatRoom');
-    } else {
-      navigation.removeListener;
-      navigation.navigate('ContactScreen');
+        setCurrentChannel(channel);
+
+        navigation.removeListener;
+        navigation.navigate('ChatRoom');
+      } else {
+        navigation.removeListener;
+        navigation.navigate('ContactScreen');
+      }
     }
   };
 

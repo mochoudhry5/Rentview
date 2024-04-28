@@ -11,7 +11,7 @@ import {OverlayProvider, Chat} from 'stream-chat-react-native';
 import {db, auth} from '../config/firebase';
 import {doc, getDoc, updateDoc} from 'firebase/firestore';
 import axios from 'axios';
-const baseUrl = 'https://rentview.onrender.com';
+import {STREAM_KEY} from '@env';
 
 type ChatContextType = {
   chatClient?: StreamChat;
@@ -26,10 +26,11 @@ export const ChatContext = createContext<ChatContextType>({
 });
 
 const ChatContextProvider = ({children}: {children: React.ReactNode}) => {
-  const [chatClient, setChatClient] = useState<StreamChat | null>(null);
+  const [chatClient, setChatClient] = useState<StreamChat>();
   const [currentChannel, setCurrentChannel] = useState<Channel>();
   const userId = auth.currentUser ? auth.currentUser.uid : null;
   const userInfoRef = doc(db, 'UserReviews', userId ? userId : '');
+  const baseServerUrl = 'https://rentview.onrender.com';
 
   useEffect(() => {
     const initChat = async () => {
@@ -40,13 +41,13 @@ const ChatContextProvider = ({children}: {children: React.ReactNode}) => {
       const userDoc = await getDoc(userInfoRef);
 
       if (userDoc.exists()) {
-        const client = StreamChat.getInstance('pn73rx5c7g26');
+        const client = StreamChat.getInstance(STREAM_KEY);
         let token;
 
         if (userDoc.data().token) {
           token = userDoc.data().token;
         } else {
-          const response = await axios.post(`${baseUrl}/api/data`, {
+          const response = await axios.post(`${baseServerUrl}/api/data`, {
             userId,
           });
           token = response.data;

@@ -4,7 +4,6 @@ import {DocumentData} from 'firebase/firestore';
 import {Card} from '@rneui/base';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Modal} from './Modal';
-import {openPicker} from 'react-native-image-crop-picker';
 
 type Props = {
   rental: DocumentData;

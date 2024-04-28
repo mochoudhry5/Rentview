@@ -17,7 +17,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 type ChatRoomProps = NativeStackScreenProps<ChatStackParamList, 'ChatRoom'>;
 
 const ChatRoom: React.FC<ChatRoomProps> = ({navigation}) => {
-  const {currentChannel, setCurrentChannel} = useChatContext();
+  const {currentChannel} = useChatContext();
   const [thread, setThread] = useState<MessageType | null>();
 
   useEffect(() => {

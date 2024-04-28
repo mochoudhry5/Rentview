@@ -5,10 +5,9 @@ import {
   TouchableOpacity,
   TextInput,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {AccountStackParamList} from '../../utils/types';
-import {StreamChat} from 'stream-chat';
 import {useChatContext} from '../../context/ChatContext';
 import {auth} from '../../config/firebase';
 
@@ -18,7 +17,7 @@ type ContactProps = NativeStackScreenProps<
 >;
 
 const ContactScreen: React.FC<ContactProps> = ({navigation}) => {
-  const client = StreamChat.getInstance('pn73rx5c7g26');
+  const {chatClient} = useChatContext();
   const adminId = '0bXFuQZ3OmRA09Tr311JSBizUjs2';
   const user = auth.currentUser;
   const userId = user?.uid ? user.uid : '';
@@ -27,21 +26,23 @@ const ContactScreen: React.FC<ContactProps> = ({navigation}) => {
   const [messageText, setMessageText] = useState<string>();
 
   const handleMessageOwner = async () => {
-    const channel = client.channel('messaging', {
-      members: [adminId, userId],
-      name: 'Rentview Admin',
-    });
+    if (chatClient) {
+      const channel = chatClient.channel('messaging', {
+        members: [adminId, userId],
+        name: 'Rentview Admin',
+      });
 
-    await channel.create();
+      await channel.create();
 
-    await channel.sendMessage({
-      text: messageText,
-    });
+      await channel.sendMessage({
+        text: messageText,
+      });
 
-    setCurrentChannel(channel);
+      setCurrentChannel(channel);
 
-    navigation.removeListener;
-    navigation.navigate('ChatRoom');
+      navigation.removeListener;
+      navigation.navigate('ChatRoom');
+    }
   };
 
   return (

@@ -31,7 +31,6 @@ import {ListItem} from '@rneui/themed';
 import BigImageViewer from '../../components/BigImageViewer';
 import {Modal} from '../../components/Modal';
 import {ImageType, SearchStackParamList} from '../../utils/types';
-import {StreamChat} from 'stream-chat';
 import {useChatContext} from '../../context/ChatContext';
 
 const imageData = [
@@ -100,16 +99,13 @@ const RentalDescription: React.FC<RentalDescriptionProps> = ({
   const [airConditioning, setAirConditioning] = useState<string>('');
   const [dishwasher, setDishwasher] = useState<string>('');
   const [parking, setParking] = useState<string>('');
-  const [ownerFullName, setOwnerFullName] = useState<string>('');
   const [expandedPropInfo, setExpandedPropInfo] = useState<boolean>(false);
   const [expandedOwnerInfo, setExpandedOwnerInfo] = useState<boolean>(false);
   const [currUserReviewed, setCurrUserReviewed] = useState<boolean>(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [homeImages, setHomeImages] = useState<ImageType[]>(imageData);
   const [showCreateReviewBtn, setShowCreateReviewBtn] = useState<boolean>(true);
-  const [messageText, setMessageText] = useState<string>(
-    'Hi, I am interested!',
-  );
+  const [messageText, setMessageText] = useState<string>('I am interested!');
   const user = auth.currentUser;
   const userId = user?.uid ? user.uid : '';
   const sheetRef = useRef<BottomSheet>(null);
@@ -118,7 +114,7 @@ const RentalDescription: React.FC<RentalDescriptionProps> = ({
   const homeReviewsQuery = query(
     collection(db, 'HomeReviews', route.params.homeId, 'IndividualRatings'),
   );
-  const {setCurrentChannel} = useChatContext();
+  const {setCurrentChannel, chatClient} = useChatContext();
 
   useEffect(() => {
     const subscribe = onSnapshot(homeInfoRef, docSnapshot => {
@@ -243,10 +239,8 @@ const RentalDescription: React.FC<RentalDescriptionProps> = ({
   };
 
   const handleMessageOwner = async () => {
-    if (ownerUserId !== '') {
-      const client = StreamChat.getInstance('pn73rx5c7g26');
-
-      const channel = client.channel('messaging', {
+    if (ownerUserId !== '' && chatClient) {
+      const channel = chatClient.channel('messaging', {
         members: [userId, ownerUserId],
         name: street,
         image: homeImages[0].uri,

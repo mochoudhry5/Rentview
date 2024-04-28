@@ -1,4 +1,10 @@
 import {View, Text, StyleSheet, ActivityIndicator} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {AccountStackParamList} from '../../utils/types';
+import {auth, db} from '../../config/firebase';
+import {ScrollView} from 'react-native-gesture-handler';
+import AdvancedRentalCard from '../../components/AdvancedRentalCard';
 import {
   DocumentData,
   collection,
@@ -8,12 +14,6 @@ import {
   query,
   deleteDoc,
 } from 'firebase/firestore';
-import React, {useEffect, useState} from 'react';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {AccountStackParamList} from '../../utils/types';
-import {auth, db} from '../../config/firebase';
-import {ScrollView} from 'react-native-gesture-handler';
-import AdvancedRentalCard from '../../components/AdvancedRentalCard';
 
 type PropertiesProps = NativeStackScreenProps<
   AccountStackParamList,
@@ -22,10 +22,10 @@ type PropertiesProps = NativeStackScreenProps<
 
 const PropertiesScreen: React.FC<PropertiesProps> = ({navigation}) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const user = auth.currentUser;
+  const userId = auth.currentUser ? auth.currentUser.uid : 'NO_USER_ID_FOUND';
   const [allProperties, setAllProperties] = useState<DocumentData[]>([]);
   const userPropertiesRef = query(
-    collection(db, 'UserReviews', user?.uid ? user.uid : '', 'MyProperties'),
+    collection(db, 'UserReviews', userId, 'MyProperties'),
   );
 
   useEffect(() => {
@@ -63,7 +63,7 @@ const PropertiesScreen: React.FC<PropertiesProps> = ({navigation}) => {
     const myPropertiesRef = doc(
       db,
       'UserReviews',
-      user?.uid ? user.uid : '',
+      userId,
       'MyProperties',
       homeId,
     );
