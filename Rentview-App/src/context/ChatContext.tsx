@@ -47,9 +47,12 @@ const ChatContextProvider = ({children}: {children: React.ReactNode}) => {
         if (userDoc.data().token) {
           token = userDoc.data().token;
         } else {
-          const response = await axios.post(`${baseServerUrl}/api/data`, {
-            userId,
-          });
+          const response = await axios.post(
+            `${baseServerUrl}/api/createToken`,
+            {
+              userId,
+            },
+          );
           token = response.data;
           await updateDoc(userInfoRef, {
             token: token,

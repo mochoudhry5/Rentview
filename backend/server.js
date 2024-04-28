@@ -15,7 +15,7 @@ app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
 
-app.post('/api/data', function(req, res) {
+app.post('/api/createToken', function(req, res) {
     console.log('receiving data ...');
     const token = serverClient.createToken(req.body.userId);
     res.send(token);
